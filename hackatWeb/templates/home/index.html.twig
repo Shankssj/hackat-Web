@@ -1,20 +1,163 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hackat'Web{% endblock %}
 
 {% block body %}
+
+<!-- Navbar -->
+<nav class="navbar">
+    <h1>Hackat'Web</h1>
+    <ul>
+        <li><a href="#hackatons">Nos Hackathons</a></li>
+        <li><a href="#inscription">Inscription</a></li>
+    </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="example-wrapper">
+    <h1>Bienvenue à {{ controller_name }} !</h1>
+    <p>Rejoignez notre communauté d'innovateurs et participez à des hackathons passionnants.</p>
+
+    <!-- Section: Qu'est-ce qu'un Hackathon -->
+    <section id="hackatons" class="hackathon-info">
+        <h2>Qu'est-ce qu'un Hackathon ?</h2>
+        <p>Un hackathon est un événement où des développeurs, designers et passionnés de technologie se réunissent pour
+            collaborer et créer des projets innovants en un temps limité. C'est une occasion parfaite pour apprendre,
+            expérimenter, et faire partie d'une communauté créative !</p>
+        <button class="btn-primary" onclick="document.location.href='#inscription'">Je m'inscris à un hackathon</button>
+    </section>
+
+</div>
+
+<!-- Footer with copyright -->
+<footer class="footer fixed-bottom">
+    <p>&copy; 2024 Hackat'Web. Tous droits réservés.</p>
+</footer>
+
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    /* Basic reset and typography */
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        background: #f0f2f5;
+    }
+
+    /* Navbar styling */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1em 2em;
+        background-color: #007bff;
+        color: #fff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar h1 {
+        font-size: 1.8em;
+        color: #fff;
+        margin: 0;
+    }
+
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5em;
+        margin: 0;
+    }
+
+    .navbar ul li {
+        display: inline;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        padding: 0.5em 1em;
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+        background-color: #0056b3;
+        border-radius: 5px;
+    }
+
+    /* Main content styling */
+    .example-wrapper {
+        margin: 2em auto;
+        max-width: 800px;
+        padding: 2em;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .example-wrapper h1 {
+        font-size: 2.2em;
+        color: #007bff;
+    }
+
+    .example-wrapper p {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 1em;
+    }
+
+    /* Hackathon Info Section */
+    .hackathon-info {
+        background-color: #e9f7fe;
+        padding: 1.5em;
+        border-radius: 8px;
+        margin-top: 2em;
+        box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.1);
+    }
+
+    .hackathon-info h2 {
+        color: #0056b3;
+        font-size: 1.8em;
+    }
+
+    .hackathon-info p {
+        color: #333;
+        font-size: 1em;
+        margin-bottom: 1em;
+    }
+
+    /* Button styling */
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 0.8em 1.5em;
+        font-size: 1em;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Footer styling */
+    .footer {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        padding: 1em;
+        margin-top: 2em;
+    }
+
+    .footer p {
+        margin: 0;
+        font-size: 0.9em;
+
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/hackatWeb/hackatWeb/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/var/www/html/hackatWeb/hackatWeb/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
 {% endblock %}
