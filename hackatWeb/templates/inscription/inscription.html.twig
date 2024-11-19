@@ -1,20 +1,112 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InscriptionController!{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .form-container {
+        margin: 2em auto;
+        max-width: 600px;
+        padding: 2em;
+        background-color: #f7f7f7;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 2em;
+        color: #333;
+    }
+    .form-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .form-group {
+        flex: 1 1 45%;
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group label {
+        margin-bottom: 0.5em;
+        font-weight: bold;
+    }
+    .form-group input {
+        padding: 0.75em;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-group input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    .form-container button {
+        width: 100%;
+        padding: 1em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        margin-top: 20px;
+    }
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+    .form-container p {
+        text-align: center;
+        margin-top: 1em;
+    }
+    .form-container p a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .form-container p a:hover {
+        text-decoration: underline;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/hackat-Web/hackatWeb/src/Controller/InscriptionController.php</code></li>
-        <li>Your template at <code>/var/www/html/hackat-Web/hackatWeb/templates/inscription/index.html.twig</code></li>
-    </ul>
+<div class="form-container">
+    <h2>Inscription</h2>
+    <form method="POST" action="{{ path('app_inscription') }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="lastname">Nom</label>
+                <input type="text" id="lastname" name="lastname" placeholder="Entrez votre nom"  >
+            </div>
+            <div class="form-group">
+                <label for="firstname">Prénom</label>
+                <input type="text" id="firstname" name="firstname" placeholder="Entrez votre prénom"  >
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Entrez votre email"  >
+            </div>
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" name="phone" placeholder="Entrez votre numéro de téléphone"  >
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Date de naissance</label>
+                <input type="date" id="birthdate" name="birthdate"  >
+            </div>
+            <div class="form-group">
+                <label for="portfolio">Lien du portfolio</label>
+                <input type="url" id="portfolio" name="portfolio" placeholder="Lien vers votre portfolio">
+            </div>
+            <div class="form-group">
+                <label for="username">Identifiant</label>
+                <input type="text" id="username" name="username" placeholder="Entrez un identifiant"  >
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="Entrez un mot de passe"  >
+            </div>
+        </div>
+         <button type="submit">S'inscrire</button>
+    </form>
+    <p>Déjà inscrit ? <a href="/connexion">Connectez-vous ici</a></p>
 </div>
 {% endblock %}
