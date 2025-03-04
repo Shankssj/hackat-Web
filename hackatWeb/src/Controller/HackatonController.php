@@ -11,7 +11,7 @@ use App\Entity\Hackaton;
 class HackatonController extends AbstractController 
 {
     #[Route('/hackaton', name: 'app_hackaton')]
-    public function index(Hackaton $ville,EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em): Response
     {   
         $repository = $em->getRepository(Hackaton::class);
 
