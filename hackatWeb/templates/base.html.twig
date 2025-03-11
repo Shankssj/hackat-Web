@@ -31,9 +31,10 @@
 				</li>
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li>
-						<a href="{{ path('app_logout') }}">Mes hackatons</a>
+						<a href="{{ path('app_mesHacks') }}">Mes hackatons</a>
 					</li>
 				{% endif %}
+				
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li>
 						<a href="{{ path('app_logout') }}">Se déconnecter</a>

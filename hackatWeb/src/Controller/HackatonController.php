@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Hackaton;
+use App\Entity\Inscription;
+use App\Entity\Utilisateur;
+
 
 class HackatonController extends AbstractController 
 {
@@ -53,3 +56,21 @@ class HackatonController extends AbstractController
     
 
 }
+
+
+    #[Route('/mesHackathons',name :'app_mesHacks')]
+    public function mesHack( EntityManagerInterface $detail): Response {
+        $userConnected= $this->getUser();
+     //   dump($userConnected->getId());
+        $repository2 = $detail->getRepository(Inscription::class);
+        $lesInscriptions = $repository2->findBy(['unUtilisateur'=> $userConnected]);
+        dump($lesInscriptions);
+       
+       // $repository2->get();
+
+        return $this->render('login/mesHackathons.html.twig', ['lesHackaton'=>$lesInscriptions
+    ]);
+    }
+}
+
+
