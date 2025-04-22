@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CoachRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CoachRepository::class)]
@@ -22,6 +24,17 @@ abstract class Coach
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lienLinkedin = null;
+
+    /**
+     * @var Collection<int, Hackaton>
+     */
+    #[ORM\ManyToMany(targetEntity: Hackaton::class, mappedBy: 'lesCoachs')]
+    private Collection $hackatons;
+
+    public function __construct()
+    {
+        $this->hackatons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -48,6 +61,33 @@ abstract class Coach
     public function setLienLinkedin(?string $lienLinkedin): static
     {
         $this->lienLinkedin = $lienLinkedin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hackaton>
+     */
+    public function getHackatons(): Collection
+    {
+        return $this->hackatons;
+    }
+
+    public function addHackaton(Hackaton $hackaton): static
+    {
+        if (!$this->hackatons->contains($hackaton)) {
+            $this->hackatons->add($hackaton);
+            $hackaton->addLesCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHackaton(Hackaton $hackaton): static
+    {
+        if ($this->hackatons->removeElement($hackaton)) {
+            $hackaton->removeLesCoach($this);
+        }
 
         return $this;
     }

@@ -40,9 +40,14 @@ class HackatonController extends AbstractController
     {
         $repository = $em->getRepository(Hackaton::class);
         $detail = $repository->find($id);
-
+        $coachsHackaton = $detail->getLesCoachs();
+        $role = get_class($coachsHackaton);
+        dump($coachsHackaton);
+        //dump de role
         return $this->render('hackaton/Details.html.twig', [
-            'leDetails' => $detail
+            'leDetails' => $detail,
+            'coachsHackaton' => $coachsHackaton,
+            'role' => $role
         ]);
     }
     

@@ -3,132 +3,162 @@
 {% block title %}Détails de l'Hackathon{% endblock %}
 
 {% block body %}
-    <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
 
-        body {
-            background-color: #f7f7f7; /* Fond clair */
-            padding: 40px;
-        }
+    body {
+        background-color: #f7f7f7;
+        padding: 40px;
+    }
 
-        /* Conteneur général avec des marges */
-        .example-wrapper {
-            margin: 2em auto;
-            max-width: 1200px;
-            width: 95%;
-        }
+    .example-wrapper {
+        margin: 2em auto;
+        max-width: 1200px;
+        width: 95%;
+    }
 
-        /* Conteneur de cartes avec CSS Grid */
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 40px;
+        justify-items: center;
+        margin-top: 20px;
+    }
+
+    .card {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 15px;
+        border: 2px solid #e0e0e0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+        text-decoration: none;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .card-details .text-title {
+        font-size: 1.8rem;
+        color: #4a90e2;
+        margin-bottom: 15px;
+    }
+
+    .card-details p, .card-details h3 {
+        font-size: 1.4rem;
+        color: #333;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .card-details ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    .card-details ul li {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 768px) {
         .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Colonnes adaptatives, largeur minimale 300px */
-            gap: 40px; /* Espace entre les cartes augmenté */
-            justify-items: center; /* Centrer les cartes */
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
 
-        /* Styles des cartes */
         .card {
-            width: 100%; /* La carte prend toute la largeur de sa colonne */
-            height: auto; /* La hauteur s'adapte au contenu */
-            background: #ffffff;
-            border-radius: 15px;
-            border: 2px solid #e0e0e0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-            text-decoration: none; /* Enlever la décoration par défaut du lien */
+            height: auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            grid-template-columns: 1fr;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        .card {
+            height: auto;
         }
+    }
+</style>
 
-        .card-details {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start; /* Alignement à gauche pour mieux organiser le contenu */
-            height: 100%;
-        }
+<div class="example-wrapper">
+    <div class="container">
+        <!-- Carte principale : Hackathon -->
+        <div class="card">
+            <div class="card-details">
+                <p class="text-title">{{ leDetails.themeHack }}</p>
 
-        /* Améliorer la présentation du titre */
-        .card-details .text-title {
-            font-size: 1.8rem;
-            color: #4a90e2;
-            margin-bottom: 15px;
-        }
+                <h3>Adresse :</h3>
+                <p>{{ leDetails.rueHack }}, {{ leDetails.cpHack }}, {{ leDetails.villeHack }}</p>
 
-        /* Style du texte principal */
-        .card-details p, .card-details h2 {
-            font-size: 1.4rem; /* Taille plus grande pour plus de lisibilité */
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.5; /* Améliorer l'espacement entre les lignes */
-        }
+                <h3>Heure de début :</h3>
+                <p>{{ leDetails.heureDebutHack | date('H:i') }}h</p>
 
-        /* Ajouter un style pour les sous-titres */
-        .card-details h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-        }
+                <h3>Date limite d'inscription :</h3>
+                <p>{{ leDetails.dateLimiteHack|date('d/m/Y') }}</p>
 
-        /* Responsiveness : ajuster la disposition pour les petits écrans */
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 2-3 cartes par ligne selon la taille de l'écran */
-            }
-
-            .card {
-                height: auto; /* S'assurer que la carte s'adapte à son contenu */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                grid-template-columns: 1fr; /* 1 carte par ligne sur les très petits écrans */
-            }
-
-            .card {
-                height: auto; /* Laisser la carte se redimensionner automatiquement */
-            }
-        }
-    </style>
-
-    <div class="example-wrapper">
-        <div class="container">
-            <div class="card">
-                <div class="card-details">
-                    <!-- Titre principal -->
-                    <p class="text-title">{{ leDetails.themeHack }}</p>
-
-                    <!-- Détails de l'Hackathon -->
-                    <h3>Adresse :</h3>
-                    <p>{{ leDetails.rueHack }}, {{ leDetails.cpHack }}, {{ leDetails.villeHack }}</p>
-
-                    <h3>Heure de début :</h3>
-                    <p>{{ leDetails.heureDebutHack | date('H:i') }}h</p>
-
-                    <h3>Date limite d'inscription :</h3>
-                    <p>{{ leDetails.dateLimiteHack|date('d/m/Y') }}</p>
-
-                    <h3>Heure de fin :</h3>
-                    <p>{{ leDetails.heureFinHack | date('H:i') }}h</p>
-
-                    <!-- Vous pouvez ajouter d'autres sections si nécessaire -->
-                </div>
+                <h3>Heure de fin :</h3>
+                <p>{{ leDetails.heureFinHack | date('H:i') }}h</p>
             </div>
         </div>
+
+        <!-- Cartes pour chaque coach -->
+        {% for coach in coachsHackaton %}
+            <div class="card">
+                <div class="card-details">
+                    <p class="text-title">{{ coach.nomCoach }}</p>
+
+                    {% if coach.lesCompetencesTechniques is defined and coach.lesCompetencesTechniques is not empty %}
+                        <h3>Compétences de ce coach technique :</h3>
+                        <ul>
+                            {% for uneCompetenceTech in coach.lesCompetencesTechniques %}
+                                <li>{{ uneCompetenceTech.libelleTechnique }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if coach.lesCompetencesMetier is defined and coach.lesCompetencesMetier is not empty %}
+                        <h3>Compétences de ce coach métier :</h3>
+                        <ul>
+                            {% for uneCompetenceMetier in coach.lesCompetencesMetier %}
+                                <li>{{ uneCompetenceMetier.libelleMetier }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if coach.lesSpecialites is defined and coach.lesSpecialites is not empty %}
+                        <h3>Spécialités de ce coach motivant :</h3>
+                        <ul>
+                            {% for uneSpecialite in coach.lesSpecialites %}
+                                <li>{{ uneSpecialite.libelleMotivant }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun coach disponible pour ce hackathon.</p>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}
