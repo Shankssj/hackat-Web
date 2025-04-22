@@ -30,6 +30,22 @@
         justify-items: center;
         margin-top: 20px;
     }
+		body {
+			background-color: #f7f7f7; /* Fond clair */
+
+		}
+
+		/* Conteneur général avec des marges */
+
+
+		/* Conteneur de cartes avec CSS Grid */
+		.container {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Colonnes adaptatives, largeur minimale 300px */
+			gap: 40px; /* Espace entre les cartes augmenté */
+			justify-items: center; /* Centrer les cartes */
+			margin-top: 20px;
+		}
 
     .card {
         width: 100%;
@@ -43,6 +59,21 @@
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
         text-decoration: none;
     }
+		/* Styles des cartes */
+		.card {
+			width: 100%; /* La carte prend toute la largeur de sa colonne */
+			height: auto; /* La hauteur s'adapte au contenu */
+			background: #ffffff;
+
+			border-radius: 15px;
+			border: 2px solid #e0e0e0;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+			padding: 30px;
+			position: relative;
+			overflow: hidden;
+			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+			text-decoration: none; /* Enlever la décoration par défaut du lien */
+		}
 
     .card:hover {
         transform: translateY(-10px);
@@ -80,6 +111,83 @@
         color: #555;
         margin-bottom: 5px;
     }
+
+		/* CSS */
+		.button-17 {
+			align-items: center;
+			appearance: none;
+			background-color: #007bff;
+			border-radius: 24px;
+			border-style: none;
+			box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px, rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+			box-sizing: border-box;
+			color: #fff;
+			cursor: pointer;
+			display: inline-flex;
+			fill: currentcolor;
+			font-family: "Google Sans", Roboto, Arial, sans-serif;
+			font-size: 14px;
+			font-weight: 500;
+			height: 48px;
+			justify-content: center;
+			letter-spacing: 0.25px;
+			line-height: normal;
+			max-width: 100%;
+			overflow: visible;
+			padding: 2px 24px;
+			position: relative;
+			text-align: center;
+			text-transform: none;
+			transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0;
+			user-select: none;
+			-webkit-user-select: none;
+			touch-action: manipulation;
+			width: auto;
+			will-change: transform, opacity;
+			z-index: 0;
+		}
+
+		.button-17:hover {
+			background: #F6F9FE;
+			color: #174ea6;
+		}
+
+		.button-17:active {
+			box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+			outline: none;
+		}
+
+		.button-17:focus {
+			outline: none;
+			border: 2px solid #4285f4;
+		}
+
+		.button-17:not(:disabled) {
+			box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+		}
+
+		.button-17:not(:disabled):hover {
+			box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0, rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+		}
+
+		.button-17:not(:disabled):focus {
+			box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+		}
+
+		.button-17:not(:disabled):active {
+			box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0, rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+		}
+
+		.button-17:disabled {
+			box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+		}
+		/* Ajouter un style pour les sous-titres */
+		.card-details h3 {
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: #333;
+			margin-bottom: 10px;
+		}
 
     @media (max-width: 768px) {
         .container {
@@ -122,6 +230,32 @@
                 <p>{{ leDetails.heureFinHack | date('H:i') }}h</p>
             </div>
         </div>
+				<h3>Heure de fin :</h3>
+				<p>{{ leDetails.heureFinHack | date('H:i') }}h</p>
+
+				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+
+					<p>Pour vous inscrire aux hackathons, veuillez vous connecter</p>
+
+				{% endif %}
+
+
+
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<!-- Vous pouvez ajouter d'autres sections si nécessaire -->
+				<a href="{{ path('app_inscriptionHack', { 'id': leDetails.id }) }}" class="button-17">S'inscrire</a>
+				{% if isFavori %}
+					<a href="{{ path('app_supprimerFavoris', { 'id': leDetails.id }) }}" data-like-url="{{ path('app_supprimerFavoris', { 'id': leDetails.id }) }}" class="button-17">Supprimer des favoris</a>
+				{% else %}
+					<a href="{{ path('app_api_favoris', { 'id': leDetails.id }) }}" data-like-url="{{ path('app_api_favoris', { 'id': leDetails.id }) }}" class="button-17">Mettre en favoris</a>
+
+				{% endif %}
+
+			{% endif %}
+			</div>
+		</div>
+	</div>
+	<script src="{{asset('./js/likes.js')}}"></script>
 
         <!-- Cartes pour chaque coach -->
         {% for coach in coachsHackaton %}
@@ -163,3 +297,4 @@
     </div>
 </div>
 {% endblock %}
+
