@@ -93,25 +93,51 @@ class HackatonController extends AbstractController
 
 
     #[Route('/inscriptionHack/{id}', name: 'app_inscriptionHack')]
-public function inscriptionHack(int $id, EntityManagerInterface $detail): Response
-{
-    $userConnected = $this->getUser();
-
-    $repository2 = $detail->getRepository(Inscription::class);
-    $repository = $detail->getRepository(Hackaton::class);
-    $hackatonSelectionne =  $repository->find($id);
-    //$idHackSelec = $hackatonSelectionne->getId();
-
-    $newInscriptions = new Inscription();
-    $newInscriptions->setUnUtilisateur($userConnected);
-    $newInscriptions->setUnHackaton($hackatonSelectionne);
-    $newInscriptions->setDateInscription(new \DateTime()); // Ajout de la date actuelle
-
-    $detail->persist($newInscriptions);
-    $detail->flush();
-
-    return new Response('Nouvelle inscription enregistrée');
-}
+    public function inscriptionHack(int $id, EntityManagerInterface $detail): Response
+    {
+        $userConnected = $this->getUser();
+    
+        if (!$userConnected) {
+            $this->addFlash('danger', 'Vous devez être connecté pour vous inscrire.');
+            return $this->redirectToRoute('app_details', ['id' => $id]);
+        }
+    
+        $inscriptionRepo = $detail->getRepository(Inscription::class);
+        $hackathonRepo = $detail->getRepository(Hackaton::class);
+    
+        $hackathon = $hackathonRepo->find($id);
+    
+        if (!$hackathon) {
+            $this->addFlash('danger', 'Hackathon introuvable.');
+            return $this->redirectToRoute('app_details', ['id' => $id]);
+        }
+    
+        // Vérifie si l'utilisateur est déjà inscrit
+        $existingInscription = $inscriptionRepo->findOneBy([
+            'unUtilisateur' => $userConnected,
+            'unHackaton' => $hackathon
+        ]);
+    
+        if ($existingInscription) {
+            $this->addFlash('danger', '⚠️ Vous êtes déjà inscrit à ce hackathon.');
+            return $this->redirectToRoute('app_details', ['id' => $id]);
+        }
+    
+        // Crée l'inscription
+        $newInscription = new Inscription();
+        $newInscription->setUnUtilisateur($userConnected);
+        $newInscription->setUnHackaton($hackathon);
+        $newInscription->setDateInscription(new \DateTime());
+    
+        $detail->persist($newInscription);
+        $detail->flush();
+    
+        $this->addFlash('success', '✅ Inscription enregistrée avec succès !');
+        return $this->redirectToRoute('app_details', ['id' => $id]);
+    }
+    
+    
+    
 
 #[Route('/mesFavoris/{id}/favoris', name: 'app_mesFavoris')]
 public function mesFavoris(int $id, EntityManagerInterface $favoris): Response
