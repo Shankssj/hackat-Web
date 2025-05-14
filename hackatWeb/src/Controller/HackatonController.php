@@ -7,14 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Hackaton;
-<<<<<<< HEAD
-class HackatonController extends AbstractController 
-{
-    
-    #[Route('/hackaton', name: 'app_hackaton')]
-    public function index( EntityManagerInterface $em): Response
-    {   
-=======
 use App\Entity\Inscription;
 use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +18,6 @@ class HackatonController extends AbstractController
     #[Route('/hackaton', name: 'app_hackaton')]  
     public function index(EntityManagerInterface $em): Response
     {
->>>>>>> 275050b673fc1931fcecea1a09649e42a23ad2e2
         $repository = $em->getRepository(Hackaton::class);
         $hackatons = $repository->findBy([], ['dateDebutHack' => 'DESC']);
         $queryBuilder = $repository->createQueryBuilder('h')
@@ -34,11 +25,6 @@ class HackatonController extends AbstractController
              ->setParameter('today', new \DateTime())  // Passer la date d'aujourd'hui
                 ->orderBy('h.dateDebutHack', 'ASC');  // Trier par dateDebutHack de manière croissante
 
-<<<<<<< HEAD
-// Exécuter la requête et obtenir les résultats
-        $hackatonsAncien = $queryBuilder->getQuery()->getResult();
-        return $this->render('hackaton/hackaton.html.twig', ['lesHackaton'=>$hackatons,'lesHackAncien'=>$hackatonsAncien
-=======
         // Récupérer les hackathons à venir (date supérieure à aujourd'hui)
         $queryBuilderFutur = $repository->createQueryBuilder('h')
             ->where('h.dateDebutHack > :today') 
@@ -57,19 +43,12 @@ class HackatonController extends AbstractController
             'lesHackaton' => $hackatonsFuturs,
             'lesHackAncien' => $hackatonsAnciens
        
->>>>>>> 275050b673fc1931fcecea1a09649e42a23ad2e2
         ]);
     }
     #[Route('/Details/{id}',name :'app_details')]
     public function details( int $id ,EntityManagerInterface $detail): Response {
         $repository = $detail->getRepository(Hackaton::class);
         $detail = $repository->find($id);
-<<<<<<< HEAD
-        return $this->render('hackaton/Details.html.twig', ['leDetails'=>$detail
-    ]);
-    }
-}
-=======
         $coachsHackaton = $detail->getLesCoachs();
         $role = get_class($coachsHackaton);
         dump($coachsHackaton);
@@ -215,4 +194,3 @@ public function mesFavoris(int $id, EntityManagerInterface $favoris): Response
         ]);
     }
 }
->>>>>>> 275050b673fc1931fcecea1a09649e42a23ad2e2
