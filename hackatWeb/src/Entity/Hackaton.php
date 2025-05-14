@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HackatonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,6 +45,17 @@ class Hackaton
 
     #[ORM\Column(length: 255)]
     private ?string $rueHack = null;
+
+    /**
+     * @var Collection<int, Coach>
+     */
+    #[ORM\ManyToMany(targetEntity: Coach::class, inversedBy: 'hackatons')]
+    private Collection $lesCoachs;
+
+    public function __construct()
+    {
+        $this->lesCoachs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -165,6 +178,30 @@ class Hackaton
     public function setRueHack(string $rueHack): static
     {
         $this->rueHack = $rueHack;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Coach>
+     */
+    public function getLesCoachs(): Collection
+    {
+        return $this->lesCoachs;
+    }
+
+    public function addLesCoach(Coach $lesCoach): static
+    {
+        if (!$this->lesCoachs->contains($lesCoach)) {
+            $this->lesCoachs->add($lesCoach);
+        }
+
+        return $this;
+    }
+
+    public function removeLesCoach(Coach $lesCoach): static
+    {
+        $this->lesCoachs->removeElement($lesCoach);
 
         return $this;
     }

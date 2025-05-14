@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes hackathons{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h2 class="title">Mes Hackathons</h2>
+        <div class="container">
+            <!-- Colonne des hackathons inscrits -->
+            <div class="column left">
+                <h3>Hackathons inscrits</h3>
+                {% for hackaton in lesHackaton %}            
+                    <div class="card">
+                        <div class="card-details">
+                            <p class="text-title">{{ hackaton.unHackaton.themeHack }}</p>
+                            <p class="text-date">Date: {{ hackaton.unHackaton.dateDebutHack|date('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Colonne des favoris -->
+            <div class="column right">
+                <h3>Mes favoris</h3>
+                {% for favoris in lesFavoris %}
+                    <div class="card">
+                        <div class="card-details">
+                            <p class="text-title">{{ favoris.themeHack }}</p>
+                            <p class="text-date">Date: {{ favoris.dateDebutHack|date('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f7f7f7;
+        }
+
+        .example-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+        }
+
+        .column {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left {
+            margin-right: 15px;
+        }
+
+        .right {
+            margin-left: 15px;
+        }
+
+        .column h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #4a90e2;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        
+
+        .text-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .text-date {
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .btn-link {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: background 0.3s;
+        }
+
+        .btn-link:hover {
+            background-color: #357ab7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .left, .right {
+                margin: 0;
+            }
+        }
+    </style>
+{% endblock %}

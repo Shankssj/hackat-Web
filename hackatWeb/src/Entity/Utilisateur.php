@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,20 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mdpUtil = null;
+
+    /**
+     * @var Collection<int, Hackaton>
+     */
+    #[ORM\ManyToMany(targetEntity: Hackaton::class)]
+    #[ORM\JoinTable(name : "favoris")]
+    private Collection $lesFavoris;
+
+    public function __construct()
+    {
+        $this->lesFavoris = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -179,4 +195,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Hackaton>
+     */
+    public function getLesFavoris(): Collection
+    {
+        return $this->lesFavoris;
+    }
+
+    public function addLesFavori(Hackaton $lesFavori): static
+    {
+        if (!$this->lesFavoris->contains($lesFavori)) {
+            $this->lesFavoris->add($lesFavori);
+        }
+
+        return $this;
+    }
+
+    public function removeLesFavori(Hackaton $lesFavori): static
+    {
+        $this->lesFavoris->removeElement($lesFavori);
+
+        return $this;
+    }
+
+   
 }
